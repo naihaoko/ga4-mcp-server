@@ -5,7 +5,16 @@ import { GoogleAuth } from 'google-auth-library';
 import { z } from "zod";
 import dotenv from 'dotenv';
 
-dotenv.config();
+// Temporarily override process.stdout.write to suppress dotenv output
+const originalWrite = process.stdout.write;
+process.stdout.write = (chunk, encoding, callback) => {
+  // Suppress output by doing nothing
+};
+
+dotenv.config({ silent: true });
+
+// Restore original process.stdout.write
+process.stdout.write = originalWrite;
 
 // Initialize Google Analytics Data Client
 // Credentials will be loaded automatically via GOOGLE_APPLICATION_CREDENTIALS environment variable.
@@ -27,7 +36,7 @@ server.registerTool(
   "query_analytics",
   {
     title: "Query Google Analytics Data",
-    description: "Queries Google Analytics 4 data based on provided property ID, dimensions, metrics, and date ranges.",
+    description: "Queries Google Analytics 4 data based on provided dimensions, metrics, and date ranges. The property ID is optional and defaults to the GA_PROPERTY_ID configured in your environment.",
     inputSchema: {
       propertyId: z.string().optional(),
       dimensions: z.array(z.string()).optional(),
@@ -81,7 +90,7 @@ server.registerTool(
   "get_realtime_data",
   {
     title: "Get Realtime Google Analytics Data",
-    description: "Retrieves real-time active user data for your Google Analytics 4 property.",
+    description: "Retrieves real-time active user data for your Google Analytics 4 property. The property ID is optional and defaults to the GA_PROPERTY_ID configured in your environment.",
     inputSchema: {
       propertyId: z.string().optional(),
       metrics: z.array(z.string())
@@ -121,7 +130,7 @@ server.registerTool(
   "get_traffic_sources",
   {
     title: "Get Google Analytics Traffic Sources",
-    description: "Retrieves traffic source data (e.g., channel, source, medium) for your Google Analytics 4 property.",
+    description: "Retrieves traffic source data (e.g., channel, source, medium) for your Google Analytics 4 property. The property ID is optional and defaults to the GA_PROPERTY_ID configured in your environment.",
     inputSchema: {
       propertyId: z.string().optional(),
       startDate: z.string().optional(),
@@ -177,7 +186,7 @@ server.registerTool(
   "get_user_demographics",
   {
     title: "Get Google Analytics User Demographics",
-    description: "Retrieves user demographic data (e.g., country, city, device category) for your Google Analytics 4 property.",
+    description: "Retrieves user demographic data (e.g., country, city, device category) for your Google Analytics 4 property. The property ID is optional and defaults to the GA_PROPERTY_ID configured in your environment.",
     inputSchema: {
       propertyId: z.string().optional(),
       startDate: z.string().optional(),
@@ -233,7 +242,7 @@ server.registerTool(
   "get_page_performance",
   {
     title: "Get Google Analytics Page Performance",
-    description: "Retrieves page performance data (e.g., page path, page title, views) for your Google Analytics 4 property.",
+    description: "Retrieves page performance data (e.g., page path, page title, views) for your Google Analytics 4 property. The property ID is optional and defaults to the GA_PROPERTY_ID configured in your environment.",
     inputSchema: {
       propertyId: z.string().optional(),
       startDate: z.string().optional(),
@@ -288,7 +297,7 @@ server.registerTool(
   "get_conversion_data",
   {
     title: "Get Google Analytics Conversion Data",
-    description: "Retrieves conversion data for your Google Analytics 4 property.",
+    description: "Retrieves conversion data for your Google Analytics 4 property. The property ID is optional and defaults to the GA_PROPERTY_ID configured in your environment.",
     inputSchema: {
       propertyId: z.string().optional(),
       conversionEvent: z.string(),
@@ -351,7 +360,7 @@ server.registerTool(
   "get_custom_report",
   {
     title: "Get Custom Google Analytics Report",
-    description: "Retrieves a custom report from Google Analytics 4 based on provided property ID, dimensions, metrics, and date ranges. This tool is similar to query_analytics but allows for more specific use cases where a custom tool might be preferred for clarity.",
+    description: "Retrieves a custom report from Google Analytics 4 based on provided dimensions, metrics, and date ranges. The property ID is optional and defaults to the GA_PROPERTY_ID configured in your environment.",
     inputSchema: {
       propertyId: z.string().optional(),
       dimensions: z.array(z.string()).optional(),
@@ -403,9 +412,7 @@ server.registerTool(
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
+  // console.log("GA4 MCP Server is up and running."); // Removed this line to prevent non-JSON output
 }
 
-main().catch((error) => {
-  // Suppress console.error output as per user's request.
-  // In a real application, you might want a more robust error handling/logging mechanism.
-});
+main();

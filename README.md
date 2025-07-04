@@ -13,9 +13,16 @@ This project sets up a Model Context Protocol (MCP) server that connects to Goog
 
 2.  **Install dependencies:**
 
+    If `package.json` does not exist, initialize it first:
     ```bash
-    npm install
+    npm init -y
     ```
+
+    Then, install the project's dependencies:
+    ```bash
+    npm install @modelcontextprotocol/sdk @google-analytics/data dotenv
+    ```
+    This command installs all necessary project dependencies, including the MCP SDK, Google Analytics Data library, and dotenv for environment variable management.
 
 3.  **Google Service Account Key:**
 
@@ -34,15 +41,13 @@ This project sets up a Model Context Protocol (MCP) server that connects to Goog
 
 5.  **Configure Claude Desktop (or other MCP-compatible application):**
 
-    Ensure your Claude Desktop configuration (`claude_desktop_config.json`) includes the necessary environment variables and points to the `src/index.js` file for the MCP server. An example configuration snippet:
+    Ensure your Claude Desktop configuration (`claude_desktop_config.json`) includes the necessary environment variables and points to the `src/index.js` file for the MCP server. The `GA_PROPERTY_ID` configured here is used by the server as a default when a `propertyId` is not explicitly provided in a tool call. An example configuration snippet:
 
     ```json
     {
-      "mcp_servers": [
-        {
-          "id": "ga4-analytics",
-          "name": "GA4 Analytics Server",
-          "description": "Provides Google Analytics 4 data access.",
+      "mcpServers": {
+        "ga4-analytics": {
+          "name": "google_analytics",
           "command": "node",
           "args": ["<PATH_TO_YOUR_REPO>/src/index.js"],
           "cwd": "<PATH_TO_YOUR_REPO>",
@@ -51,7 +56,7 @@ This project sets up a Model Context Protocol (MCP) server that connects to Goog
             "GA_PROPERTY_ID": "YOUR_GA_PROPERTY_ID"
           }
         }
-      ]
+      }
     }
     ```
 

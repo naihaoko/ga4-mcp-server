@@ -1,0 +1,26 @@
+{
+  "name": "ga4-mcp-server",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "This project sets up a Model Context Protocol (MCP) server that connects to Google Analytics 4 (GA4) using the `@modelcontextprotocol/sdk` and the `@google-analytics/data` library. It exposes several GA4 analytics tools to be used with applications like Claude Desktop.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naihaoko/ga4-mcp-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/naihaoko/ga4-mcp-server/issues"
+  },
+  "homepage": "https://github.com/naihaoko/ga4-mcp-server#readme",
+  "dependencies": {
+    "@google-analytics/data": "^5.1.0",
+    "@modelcontextprotocol/sdk": "^1.15.0",
+    "dotenv": "^17.0.1"
+  }
+}
