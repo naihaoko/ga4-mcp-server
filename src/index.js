@@ -292,20 +292,20 @@ server.registerTool(
   }
 );
 
-// Tool to get conversion data
+// Tool to get key event data
 server.registerTool(
-  "get_conversion_data",
+  "get_key_event_data",
   {
-    title: "Get Google Analytics Conversion Data",
-    description: "Retrieves conversion data for your Google Analytics 4 property. The property ID is optional and defaults to the GA_PROPERTY_ID configured in your environment.",
+    title: "Get Google Analytics Key Event Data",
+    description: "Retrieves key event data for your Google Analytics 4 property. The property ID is optional and defaults to the GA_PROPERTY_ID configured in your environment.",
     inputSchema: {
       propertyId: z.string().optional(),
-      conversionEvent: z.string(),
+      keyEvent: z.string(),
       startDate: z.string().optional(),
       endDate: z.string().optional()
     }
   },
-  async ({ propertyId, conversionEvent, startDate, endDate }) => {
+  async ({ propertyId, keyEvent, startDate, endDate }) => {
     try {
       const [response] = await analyticsDataClient.runReport({
         property: `properties/${propertyId || GA_PROPERTY_ID}`,
@@ -319,13 +319,13 @@ server.registerTool(
           { name: 'eventName' }
         ],
         metrics: [
-          { name: 'conversions' }
+          { name: 'keyEvents' }
         ],
         dimensionFilter: {
           filter: {
             fieldName: 'eventName',
             stringFilter: {
-              value: conversionEvent,
+              value: keyEvent,
               matchType: 'EXACT'
             }
           }
@@ -338,7 +338,7 @@ server.registerTool(
         return [...dimensionValues, ...metricValues];
       });
 
-      const header = ['eventName', 'conversions'];
+      const header = ['eventName', 'keyEvents'];
 
       return {
         content: [{
@@ -348,7 +348,7 @@ server.registerTool(
       };
     } catch (error) {
       return {
-        content: [{ type: "text", text: `Error getting conversion data: ${error.message}` }],
+        content: [{ type: "text", text: `Error getting key event data: ${error.message}` }],
         isError: true
       };
     }
