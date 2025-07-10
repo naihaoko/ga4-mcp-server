@@ -65,9 +65,15 @@ This project sets up a Model Context Protocol (MCP) server that connects to Goog
     4.  In the "Property" column, click on "Property settings".
     5.  Your GA4 Property ID will be displayed there (it's a numeric ID, e.g., `123456789`).
 
-5.  **Configure Claude Desktop (or other MCP-compatible application):**
+5.  **Configure MCP-compatible applications (e.g., Claude Desktop, Gemini CLI):**
 
-    Ensure your Claude Desktop configuration (`claude_desktop_config.json`) includes the necessary environment variables and points to the `src/index.js` file for the MCP server. The `GA_PROPERTY_ID` configured here is used by the server as a default when a `propertyId` is not explicitly provided in a tool call. An example configuration snippet:
+    To integrate this MCP server with your preferred MCP-compatible application, you will need to add a configuration snippet to its settings file. The location and name of this file may vary (e.g., `claude_desktop_config.json` for Claude Desktop, or `~/.gemini/settings.json` for Gemini CLI).
+
+    For more information on installing and using Gemini CLI, refer to its GitHub repository: [https://github.com/google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli)
+
+    For Claude Desktop, go to: [https://claude.ai/download](https://claude.ai/download)
+
+    Locate your application's settings file and add the following JSON snippet under the `mcpServers` key. If the `mcpServers` key does not exist, you may need to create it.
 
     ```json
     {
@@ -88,7 +94,7 @@ This project sets up a Model Context Protocol (MCP) server that connects to Goog
 
     **Important:** Replace `<PATH_TO_YOUR_REPO>` with the absolute path to your `ga4-mcp-server` directory on your local machine.
 
-    Similarly, update your `mcp.json` file if you are using it for tool definitions.
+    After adding the configuration, restart your MCP-compatible application (e.g., Claude Desktop, Gemini CLI) for the changes to take effect. You can then start using the GA4 MCP tools within your application.
 
 ## Running the Server
 
