@@ -26,7 +26,26 @@ This project sets up a Model Context Protocol (MCP) server that connects to Goog
 
 3.  **Google Service Account Key:**
 
-    Obtain a Google service account key in JSON format and place it in the project root. Rename the file to `service-account-key.json` (or update the `.env` file accordingly).
+    To authenticate with the Google Analytics Data API, you need a Google service account key. Follow these steps to obtain one:
+
+    *   **Create a Service Account:**
+        1.  Go to the [Google Cloud Console](https://console.cloud.google.com/).
+        2.  Navigate to "IAM & Admin" > "Service Accounts".
+        3.  Click "Create Service Account".
+        4.  Provide a name for the service account and an optional description.
+        5.  Click "Done".
+    *   **Grant Permissions:**
+        1.  After creating the service account, you'll need to grant it the necessary permissions to access your Google Analytics 4 data.
+        2.  On the "Grant this service account access to project" step (or by editing the service account later), add the role **"Analytics Viewer"** to the service account. This role grants read-only access to Google Analytics data.
+        3.  Click "Done".
+    *   **Generate JSON Key:**
+        1.  In the "Service Accounts" page, click on the newly created service account.
+        2.  Go to the "Keys" tab.
+        3.  Click "Add Key" > "Create new key".
+        4.  Select "JSON" as the key type and click "Create".
+        5.  A JSON file containing your service account key will be downloaded to your computer.
+    *   **Save the Key File:**
+        Place the downloaded JSON key file in the project root of this repository. Rename the file to `service-account-key.json` (or update the `.env` file accordingly if you choose a different name).
 
 4.  **Environment Variables:**
 
@@ -38,6 +57,13 @@ This project sets up a Model Context Protocol (MCP) server that connects to Goog
     ```
 
     Replace `"YOUR_GA_PROPERTY_ID"` with your actual Google Analytics 4 Property ID.
+
+    **How to find your GA4 Property ID:**
+    1.  Go to your [Google Analytics](https://analytics.google.com/) account.
+    2.  Select the desired GA4 property.
+    3.  Navigate to "Admin" (the gear icon at the bottom left).
+    4.  In the "Property" column, click on "Property settings".
+    5.  Your GA4 Property ID will be displayed there (it's a numeric ID, e.g., `123456789`).
 
 5.  **Configure Claude Desktop (or other MCP-compatible application):**
 
