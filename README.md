@@ -94,7 +94,7 @@ This project sets up a Model Context Protocol (MCP) server that connects to Goog
 
     **Important:** Replace `<PATH_TO_YOUR_REPO>` with the absolute path to your `ga4-mcp-server` directory on your local machine.
 
-    After adding the configuration, restart your MCP-compatible application (e.g., Claude Desktop, Gemini CLI) for the changes to take effect. You can then start using the GA4 MCP tools within your application.
+    
 
 ## Running the Server
 
@@ -109,6 +109,9 @@ For background execution, you can use:
 ```bash
 node src/index.js &
 ```
+
+## Start Asking GA4 Questions
+After adding the configuration and running the MCP server, restart your MCP-compatible application (e.g., Claude Desktop, Gemini CLI) for the changes to take effect. You can then start using the GA4 MCP tools within your application.
 
 ## Available Tools
 
